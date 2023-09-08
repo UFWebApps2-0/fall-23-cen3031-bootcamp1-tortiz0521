@@ -11,9 +11,17 @@ var requestHandler = function(request, response) {
   */
   //console.log(request);
 
+  if(request.url == '/listings' && request.method == 'GET'){
+    response.write(listingData);
+  }
+  else {
+    response.write("Error code 404\n");
+  }
+
+  response.end("End request");
   /*
     Your request handler should send listingData in the JSON format as a response if a GET request 
-    is sent to the '/listings' path. Otherwise, it should send a 404 error. 
+    is sent to the '/listings' path. Otherwise, it send a 404 error. 
 
     HINT: Explore the request object and its properties 
     HINT: Explore the response object and its properties
@@ -32,6 +40,12 @@ var requestHandler = function(request, response) {
 };
 
 fs.readFile('listings.json', 'utf8', function(err, data) {
+  if(err) throw err;
+
+  //Save the data in the listingData variable already defined
+  listingData = data;
+  console.log("DATA HAS BEEN SAVED TO 'listingData'");
+
   /*
     This callback function should save the data in the listingData variable, 
     then start the server. 
@@ -46,15 +60,16 @@ fs.readFile('listings.json', 'utf8', function(err, data) {
     //Check for errors
     /*this resource gives you an idea of the general format err objects and Throwing an existing object.
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw#throwing_an_existing_object
-   */
-  
-
-   //Save the data in the listingData variable already defined
-  
+  */
 
   //Creates the server
-  
-  //Start the server
+  server = http.createServer(requestHandler);
 
+  //Start the server
+  server.listen(port, function() {
+    console.log("Server listening on: http://127.0.0.1:" + port);
+  });
+
+  console.log("Is the server started?");
 
 });
