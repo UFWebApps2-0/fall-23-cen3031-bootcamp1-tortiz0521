@@ -12,10 +12,12 @@ var requestHandler = function(request, response) {
   //console.log(request);
 
   if(request.url == '/listings' && request.method == 'GET'){
+    response.writeHead(200, {'Content-Type': 'application/json'});
     response.write(listingData);
   }
   else {
-    response.write("Error code 404\n");
+    response.writeHead(404);
+    response.write("Error in Request\n");
   }
 
   response.end("End request");
